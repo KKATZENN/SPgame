@@ -7,3 +7,4 @@ class GameEnv {
     static top;
     static bottom;
 }
+
