@@ -6,6 +6,7 @@
  * @property {number} innerWidth - The inner width of the game area.
  * @property {number} innerHeight - The inner height of the game area.
  * @property {number} top
+ * add
  */
 
 class GameEnv {
