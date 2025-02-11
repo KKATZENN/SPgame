@@ -1,7 +1,7 @@
 import GameEnv from './GameEnv.js';
-import GameLevelGrass from './GameLevelGrass.js';
+import Background from './Background.js';
 import { getStats } from "./StatsManager.js";
-
+import Player from './Player.js';
 
 
 const createStatsUI = () => {
