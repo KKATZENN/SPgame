@@ -1,4 +1,5 @@
 import GameEnv from './GameEnv.js';
+import GameLevelGrass from './GameLevelGrass.js';
 
 /**
  * The GameControl object manages the game.
