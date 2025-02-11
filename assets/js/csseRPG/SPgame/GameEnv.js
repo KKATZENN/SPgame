@@ -18,4 +18,12 @@ class GameEnv {
     static top;
     static bottom;
 }
-
+    /**
+     * Private constructor to prevent instantiation.
+     * 
+     * @constructor
+     * @throws {Error} Throws an error if an attempt is made to instantiate the class.
+     */
+    constructor() {
+        throw new Error('GameEnv is a static class and cannot be instantiated.');
+    }
