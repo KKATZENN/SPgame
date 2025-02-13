@@ -32,10 +32,7 @@ permalink: /SPGame/spGame.md
     };
     const sprite = {src: sprite_src, data: sprite_data};
 
-    // Uncomment 1 of the 4 lines to change assets being used
-    //const assets = {}
-    //const assets = {image: image}
-    //const assets = {sprite: sprite}
+    //assets that are being used
     const assets = {image: image, sprite: sprite}
 
     // Start game engine
