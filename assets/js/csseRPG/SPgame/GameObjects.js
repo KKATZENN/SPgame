@@ -1,16 +1,5 @@
 import GameEnv from './GameEnv.js';
 
-/**
- * @class GameObject
- * @method draw - Draws the object on the canvas. Must be implemented by subclasses.
- * @method update - Updates the object's state. Must be implemented by subclasses.
- * @method resize - Resizes the object based on the canvas size. Must be implemented by subclasses.
- * @method destroy - Removes the object from the game environment. Must be implemented by subclasses.
- * @method collisionChecks - Checks for collisions with other game objects.
- * @method isCollision - Detects collisions with other game objects.
- * @method handleCollisionEvent - Updates the collisions array when player is touching the object.
- * @method handleReaction - Handles player reaction / state updates to the collision.
- */
 class GameObject {
     /**
      * Constructor for the GameObject class.
