@@ -1,6 +1,5 @@
 import Character from "./Character.js";
 
-import Character from "./Character.js";
 
 class NPC extends Character {
     constructor(data = null, gameEnv = null) {
