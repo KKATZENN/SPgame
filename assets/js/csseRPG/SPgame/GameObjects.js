@@ -1,11 +1,7 @@
 import GameEnv from './GameEnv.js';
 
 class GameObject {
-    /**
-     * Constructor for the GameObject class.
-     * Throws an error if an attempt is made to instantiate this class directly,
-     * as it is intended to be used as a base class.
-     */
+
     constructor() {
         if (new.target === GameObject) {
             throw new TypeError("Cannot construct GameObject instances directly");
@@ -20,46 +16,24 @@ class GameObject {
         };
     }
 
-    /**
-     * Draws the object on the canvas.
-     * This method must be implemented by subclasses.
-     * @abstract
-     */
+
     draw() {
         throw new Error("Method 'draw()' must be implemented.");
     }
 
-    /**
-     * Updates the object's state.
-     * This method must be implemented by subclasses.
-     * @abstract
-     */
     update() {
         throw new Error("Method 'update()' must be implemented.");
     }
 
-    /**
-     * Resizes the object based on the canvas size.
-     * This method must be implemented by subclasses.
-     * @abstract
-     */
+
     resize() {
         throw new Error("Method 'resize()' must be implemented.");
     }
 
-    /**
-     * Removes the object from the game environment.
-     * This method must be implemented by subclasses.
-     * @abstract
-     */
     destroy() {
         throw new Error("Method 'destroy()' must be implemented.");
     }
 
-    /** Collision checks
-     * uses Player isCollision to detect hit
-     * calls collisionAction on hit
-     */
     collisionChecks() {
         let collisionDetected = false;
 
@@ -78,9 +52,6 @@ class GameObject {
         }
     }
 
-    /** Collision detection method
-     * usage: if (object.isCollision(platform)) { // action }
-     */
     isCollision(other) {
         // Bounding rectangles from Canvas
         const thisRect = this.canvas.getBoundingClientRect();
@@ -135,10 +106,6 @@ class GameObject {
         this.collisionData = { hit, touchPoints };
     }
 
-    /**
-     * Update the collisions array when player is touching the object
-     * @param {*} objectID 
-     */
     handleCollisionEvent() {
         const objectOther = this.collisionData.touchPoints.other;
         // check if the collision type is not already in the collisions array
@@ -150,17 +117,10 @@ class GameObject {
         this.handleCollisionState();
     }
 
-    /**
-     * Handles the reaction to the collision, this could be overridden by subclasses
-     * @param {*} other 
-     */
     handleCollisionReaction(other) {
         alert(other.greet);
     }
 
-    /**
-     * Handles Player state updates related to the collision
-     */
     handleCollisionState() {
         // handle player reaction based on collision type
         if (this.state.collisionEvents.length > 0) {
