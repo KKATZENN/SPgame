@@ -1,6 +1,90 @@
-import GameEnv from './GameEnv.js';
-import Background from './Background.js';
-import Player from './Player.js';
+import GameEnv from '../../adventureGame/GameEnv.js';
+import Background from '../../adventureGame/Background.js';
+import Player from '../../adventureGame/Player.js';
 import Npc from './Npc.js';
 
+class GameLevelGrass {
+  constructor(path) {
+    // Background data
+    const img_src_grass = path + "/SPgame/images/rpg/spritesheet (grass).png";
+    const image_data_grass = {
+      name: 'Grass',
+      greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
+      src: img_src_grass,
+      pixels: { height: 580, width: 1038 }
+    };
+
+    // Data for NPC (Bobby) playing against the player
+    const sprite_src_Bobby = path + "/SPgame/images/rpg/spritesheet.png";
+    const BOBBY_SCALE_FACTOR = 5;
+    const sprite_date_Bobby = {
+      id: 'Bobby',
+      greeting: "Whats up! I am bobby, lets play tag!",
+      src: sprite_src_Bobby,
+      SCALE_FACTOR: BOBBY_SCALE_FACTOR,
+      STEP_FACTOR: 1000,
+      ANIMATION_RATE: 50,
+      INIT_POSITION: { x: 100, y: 100 }, // Initial position on screen
+      pixels: { height: 384, width: 512 },
+      orientation: { rows: 3, columns: 4 },
+      hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+    };
+
+    // Bobby's position and movement properties
+    this.bobbyPosition = { x: sprite_date_Bobby.INIT_POSITION.x, y: sprite_date_Bobby.INIT_POSITION.y };
+    this.bobbyVelocity = { x: 2, y: 2 }; // Speed at which Bobby moves in the x and y direction
+    this.bobbyDirection = Math.random() * Math.PI * 2; // Random starting direction (angle)
+    this.bobbySpeed = 2; // Bobby's movement speed
+    
+    // Handle Bobby's movement and bouncing off walls
+    this.updateBobbyPosition = this.updateBobbyPosition.bind(this);
+
+    // Call updateBobbyPosition every frame
+    this.gameLoop();
+  }
+
+  // Update Bobby's position and make him bounce off the walls
+  updateBobbyPosition() {
+    // Move Bobby in the direction he's facing
+    this.bobbyPosition.x += this.bobbyVelocity.x;
+    this.bobbyPosition.y += this.bobbyVelocity.y;
+
+    // Check for collisions with walls (bouncing logic)
+    const canvasWidth = 1038; // Canvas width (grass field)
+    const canvasHeight = 580; // Canvas height (grass field)
+
+    // If Bobby hits the left or right wall, reverse x direction
+    if (this.bobbyPosition.x <= 0 || this.bobbyPosition.x >= canvasWidth) {
+      this.bobbyVelocity.x = -this.bobbyVelocity.x;
+      // Change direction randomly when hitting a wall
+      this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
+      this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
+      this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
+    }
+
+    // If Bobby hits the top or bottom wall, reverse y direction
+    if (this.bobbyPosition.y <= 0 || this.bobbyPosition.y >= canvasHeight) {
+      this.bobbyVelocity.y = -this.bobbyVelocity.y;
+      // Change direction randomly when hitting a wall
+      this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
+      this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
+      this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
+    }
+
+    // Update Bobby's position on screen (you can use this in your rendering code)
+    console.log("Bobby Position: ", this.bobbyPosition);
+  }
+
+  // Main game loop
+  gameLoop() {
+    this.updateBobbyPosition(); // Update Bobby's position every frame
+
+    // Call gameLoop on the next frame
+    requestAnimationFrame(this.gameLoop); // Repeat the game loop for continuous animation
+  }
+}
+
 export default GameLevelGrass;
+
+   
+
