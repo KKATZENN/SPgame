@@ -81,6 +81,16 @@ class GameLevelGrass {
 
     // Call gameLoop on the next frame
     requestAnimationFrame(this.gameLoop); // Repeat the game loop for continuous animation
+  
+    this.objects = [
+    { class: Background, data: image_data_grass },
+    { class: Player, data: sprite_data_Lebron },
+    { class: Npc, data: sprite_data_bobby },
+    { class: Npc, data: sprite_data_paul },
+    { class: Npc, data: sprite_data_shayan },
+    { class: Npc, data: sprite_data_referee},
+   // { class: Npc, data: sprite_data_htmlhank }, 
+    ];
   }
 }
 
