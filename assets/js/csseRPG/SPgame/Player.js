@@ -1,5 +1,5 @@
 import GameEnv from './GameEnv.js';
-import GameObject from './GameObject.js';
+import GameObject from './GameObjects.js';
 
 const SCALE_FACTOR = 25; // 1/nth of the height of the canvas
 const STEP_FACTOR = 100; // 1/nth, or N steps up and across the canvas
