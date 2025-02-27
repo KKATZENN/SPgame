@@ -14,19 +14,40 @@ class GameLevelGrass {
       pixels: { height: 580, width: 1038 }
     };
 
+    //Data for Player
+    const sprite_src_Randy = path + "/SPgame/images/rpg/spritesheet.png";
+    const RANDY_SCALE_FACTOR = 3;
+    const sprite_data_Randy = {
+      id: 'Randy',
+      greeting: "Hey there, Im Randy. Ready for some tag?",
+      src: sprite_data_Randy,
+      SCALE_FACTOR: RANDY_SCALE_FACTOR,
+      STEP_FACTOR: 1000,
+      ANIMATION_RATE: 50,
+      INIT_POSITION: {x:50, y: height - (height/RANDY_SCALE_FACTOR) },
+      pixels: {height: 384, width: 512},
+      orientation: {rows: 3, columns: 4},
+      down: {row: 0, start: 0, columns: 3 },
+      left: {row: 2, start: 0, columns: 3 },
+      right: {row: 1, start: 0, columns: 3 },
+      up: {row: 3, start: 0, columns: 3 },
+      hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+      keypress: { up: 95, left: 73, down: 93, right: 78 }
+    };
+
     // Data for NPC (Bobby) playing against the player
-    const sprite_src_Bobby = path + "/SPgame/images/rpg/spritesheet.png";
+    const sprite_src_Bobby = path + "/SPgame/images/rpg/pixil-frame-0.png";
     const BOBBY_SCALE_FACTOR = 5;
-    const sprite_date_Bobby = {
+    const sprite_data_Bobby = {
       id: 'Bobby',
       greeting: "Whats up! I am bobby, lets play tag!",
       src: sprite_src_Bobby,
       SCALE_FACTOR: BOBBY_SCALE_FACTOR,
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
-      INIT_POSITION: { x: 100, y: 100 }, // Initial position on screen
+      INIT_POSITION: { x: 200, y: 200 }, // Initial position on screen
       pixels: { height: 384, width: 512 },
-      orientation: { rows: 3, columns: 4 },
+      orientation: { rows: 3, start: 0, columns: 4 },
       hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
     };
 
