@@ -9,7 +9,7 @@ permalink: /csseRPG/SPGame
 </div>
 
 <script type="module">
-    import GameControl from '/SPgame/assets/js/csseRPG/SPgame/GameControl.js';
+    import GameControl from '{{site.baseurl}}/assets/js/csseRPG/SPgame/GameControl.js';
     
     const path = "{{site.baseurl}}";
     
