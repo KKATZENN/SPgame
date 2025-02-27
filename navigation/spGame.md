@@ -10,6 +10,8 @@ permalink: /SPGame/spGame.md
 <script type="module">
     import GameControl from '/SPgame/assets/js/csseRPG/SPgame/GameControl.js';
 
+    const path = "{{site.baseurl}}";
+
     // Background data
     const image_src = "/Spgame/images/rpg/spritesheet (grass)";
     const image_data = {
