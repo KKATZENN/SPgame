@@ -1,5 +1,5 @@
-import GameEnv from "../../adventureGame/GameEnv";
-import GameObject from "../../adventureGame/GameObject";
+import GameEnv from "./SPgame/GameEnv";
+import GameObject from "./SPgame/GameObjects";
 
 const SCALE_FACTOR = 10; // 1/nth of the height of the canvas
 const STEP_FACTOR = 100; // 1/nth, or N steps up and across the canvas
