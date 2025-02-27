@@ -53,6 +53,18 @@ class GameLevelGrass {
 
     //Data for the "Paul" helper NPC
     const sprite_src_Paul = path + "/SPgame/images/rpg/paulnpc.png";
+    const PAUL_SCALE_FACTOR = 5;
+    const sprite_data_Paul = {
+      id: 'Paul',
+      greeting: "Hey, Im Paul, i'll increase your speed for you!",
+      src: sprite_src_Paul,
+      SCALE_FACTOR: PAUL_SCALE_FACTOR,
+      STEP_FACTOR: 1000,
+      ANIMATION_RATE: 50,
+      INIT_POSITION: {x: 400, y: 100},
+      pixels: {x: (width/2), y: (height/2)},
+      
+    };
 
     // Bobby's position and movement properties
     this.bobbyPosition = { x: sprite_date_Bobby.INIT_POSITION.x, y: sprite_date_Bobby.INIT_POSITION.y };
