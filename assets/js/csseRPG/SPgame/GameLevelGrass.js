@@ -51,6 +51,9 @@ class GameLevelGrass {
       hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
     };
 
+    //Data for the "Paul" helper NPC
+    const sprite_src_Paul = path + "/SPgame/images/rpg/paulnpc.png";
+
     // Bobby's position and movement properties
     this.bobbyPosition = { x: sprite_date_Bobby.INIT_POSITION.x, y: sprite_date_Bobby.INIT_POSITION.y };
     this.bobbyVelocity = { x: 2, y: 2 }; // Speed at which Bobby moves in the x and y direction
@@ -105,12 +108,11 @@ class GameLevelGrass {
   
     this.objects = [
     { class: Background, data: image_data_grass },
-    { class: Player, data: sprite_data_Lebron },
-    { class: Npc, data: sprite_data_bobby },
-    { class: Npc, data: sprite_data_paul },
-    { class: Npc, data: sprite_data_shayan },
+    { class: Player, data: sprite_data_Randy },
+    { class: Npc, data: sprite_data_Bobby },
+    { class: Npc, data: sprite_data_Paul },
+    { class: Npc, data: sprite_data_Shayan },
     { class: Npc, data: sprite_data_referee},
-   // { class: Npc, data: sprite_data_htmlhank }, 
     ];
   }
 }
