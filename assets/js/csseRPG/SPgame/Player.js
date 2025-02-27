@@ -1,4 +1,4 @@
-import GameEnv from './GameEnv.js';
+import GameEnv from './SPgame/GameEnv.js';
 import GameObject from './GameObjects.js';
 
 const SCALE_FACTOR = 25; // 1/nth of the height of the canvas
