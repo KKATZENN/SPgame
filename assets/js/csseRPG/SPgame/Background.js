@@ -1,4 +1,4 @@
-import GameEnv from './SPgame/GameEnv.js';
+import GameEnv from './GameEnv.js';
 import GameObject from './SPgame/GameObjects.js';
 
 export class Background extends GameObject {

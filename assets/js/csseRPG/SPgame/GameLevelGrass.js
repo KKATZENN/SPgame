@@ -1,6 +1,6 @@
-import GameEnv from '../../adventureGame/GameEnv.js';
-import Background from '../../adventureGame/Background.js';
-import Player from '../../adventureGame/Player.js';
+import GameEnv from './GameEnv.js';
+import Background from './Background.js';
+import Player from './Player.js';
 import Npc from './Npc.js';
 
 class GameLevelGrass {
