@@ -6,6 +6,10 @@ import Npc from './Npc.js';
 class GameLevelGrass {
   constructor(path) {
     // Background data
+    let width = path.innerWidth;
+    let height = path.innerHeight;
+    let path = path.path;
+
     const img_src_grass = path + "/SPgame/images/rpg/spritesheet (grass).png";
     const image_data_grass = {
       name: 'Grass',
@@ -108,14 +112,15 @@ class GameLevelGrass {
 
     // Call updateBobbyPosition every frame
     this.gameLoop();
-  }
+  
 
   // Update Bobby's position and make him bounce off the walls
-  updateBobbyPosition() {
+  updateBobbyPosition() 
+  {
     // Move Bobby in the direction he's facing
     this.bobbyPosition.x += this.bobbyVelocity.x;
     this.bobbyPosition.y += this.bobbyVelocity.y;
-
+    
     // Check for collisions with walls (bouncing logic)
     const canvasWidth = 1038; // Canvas width (grass field)
     const canvasHeight = 580; // Canvas height (grass field)
@@ -141,15 +146,18 @@ class GameLevelGrass {
     // Update Bobby's position on screen (you can use this in your rendering code)
     console.log("Bobby Position: ", this.bobbyPosition);
   }
+  
+
+
 
   // Main game loop
-  gameLoop() {
+  //ameLoop() {
     this.updateBobbyPosition(); // Update Bobby's position every frame
 
     // Call gameLoop on the next frame
     requestAnimationFrame(this.gameLoop); // Repeat the game loop for continuous animation
   
-    this.objects = [
+    this.classes = [
     { class: Background, data: image_data_grass },
     { class: Player, data: sprite_data_Randy },
     { class: Npc, data: sprite_data_Bobby },
@@ -158,6 +166,9 @@ class GameLevelGrass {
     { class: Npc, data: sprite_data_referee},
     ];
   }
+  
 }
+
+
 
 export default GameLevelGrass;
