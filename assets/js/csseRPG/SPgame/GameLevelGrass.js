@@ -66,25 +66,39 @@ class GameLevelGrass {
       orientation: {rows: 3, start: 0, columns: 4},
       hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
     };
+    
+    //Data for the "Shayan" helper NPC
+    const sprite_src_Shayan = path + "/SPgame/images/rpg/shayannpc.png";
+    const SHAYAN_SCALE_FACTOR = 5;
+    const sprite_data_Shayan = {
+      id: 'Shayan',
+      greeting: "Hey, Im Shayan, here's a power boost!",
+      src: sprite_src_Shayan,
+      SCALE_FACTOR: SHAYAN_SCALE_FACTOR,
+      STEP_FACTOR: 1000,
+      ANIMATION_RATE: 50,
+      INIT_POSITION: {x: 300, y: 100},
+      pixels: {x: 384, y: 512},
+      orientation: {rows: 3, start: 0, columns: 4},
+      hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
+    };
 
-        //Data for the "Shayan" helper NPC
-        const sprite_src_Shayan = path + "/SPgame/images/rpg/shayannpc.png";
-        const SHAYAN_SCALE_FACTOR = 5;
-        const sprite_data_Shayan = {
-          id: 'Shayan',
-          greeting: "Hey, Im Shayan, here's a power boost!",
-          src: sprite_src_Shayan,
-          SCALE_FACTOR: SHAYAN_SCALE_FACTOR,
-          STEP_FACTOR: 1000,
-          ANIMATION_RATE: 50,
-          INIT_POSITION: {x: 300, y: 100},
-          pixels: {x: 384, y: 512},
-          orientation: {rows: 3, start: 0, columns: 4},
-          hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
-        };
+    //Data for the "Referee" helper NPC
+    const sprite_src_referee = path + "/SPgame/images/rpg/spritesheet (1).png";
+    const REFEREE_SCALE_FACTOR = 5;
+    const sprite_data_referee = {
+      id: 'Referee',
+      src: sprite_src_referee,
+      SCALE_FACTOR: REFEREE_SCALE_FACTOR,
+      STEP_FACTOR: 1000,
+      ANIMATION_RATE: 50,
+      INIT_POSITION: {x: 400, y: 250},
+      pixels: {x: 384, y: 512},
+      orientation: {rows: 3, start: 0, columns: 4},
+    };
 
     // Bobby's position and movement properties
-    this.bobbyPosition = { x: sprite_date_Bobby.INIT_POSITION.x, y: sprite_date_Bobby.INIT_POSITION.y };
+    this.bobbyPosition = { x: sprite_data_Bobby.INIT_POSITION.x, y: sprite_data_Bobby.INIT_POSITION.y };
     this.bobbyVelocity = { x: 2, y: 2 }; // Speed at which Bobby moves in the x and y direction
     this.bobbyDirection = Math.random() * Math.PI * 2; // Random starting direction (angle)
     this.bobbySpeed = 2; // Bobby's movement speed
