@@ -24,7 +24,7 @@ class GameLevelGrass {
       SCALE_FACTOR: RANDY_SCALE_FACTOR,
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
-      INIT_POSITION: {x:50, y: height - (height/RANDY_SCALE_FACTOR) },
+      INIT_POSITION: {x:50, y: 50},
       pixels: {height: 384, width: 512},
       orientation: {rows: 3, columns: 4},
       down: {row: 0, start: 0, columns: 3 },
@@ -62,9 +62,26 @@ class GameLevelGrass {
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
       INIT_POSITION: {x: 400, y: 100},
-      pixels: {x: (width/2), y: (height/2)},
-      
+      pixels: {x: (width/2), y: (height/2) },
+      orientation: {rows: 3, start: 0, columns: 4},
+      hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
     };
+
+        //Data for the "Shayan" helper NPC
+        const sprite_src_Shayan = path + "/SPgame/images/rpg/shayannpc.png";
+        const SHAYAN_SCALE_FACTOR = 5;
+        const sprite_data_Shayan = {
+          id: 'Shayan',
+          greeting: "Hey, Im Shayan, here's a power boost!",
+          src: sprite_src_Shayan,
+          SCALE_FACTOR: SHAYAN_SCALE_FACTOR,
+          STEP_FACTOR: 1000,
+          ANIMATION_RATE: 50,
+          INIT_POSITION: {x: 300, y: 100},
+          pixels: {x: 384, y: 512},
+          orientation: {rows: 3, start: 0, columns: 4},
+          hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
+        };
 
     // Bobby's position and movement properties
     this.bobbyPosition = { x: sprite_date_Bobby.INIT_POSITION.x, y: sprite_date_Bobby.INIT_POSITION.y };
@@ -130,6 +147,3 @@ class GameLevelGrass {
 }
 
 export default GameLevelGrass;
-
-   
-
