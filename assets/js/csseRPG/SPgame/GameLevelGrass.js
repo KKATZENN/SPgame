@@ -147,11 +147,46 @@ class GameLevelGrass {
     console.log("Bobby Position: ", this.bobbyPosition);
   }
   
+  this.updateBobbyPosition(); // Update Bobby's movement
 
+  // Assume we have access to player position
+  let player = {
+    x: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.x,
+    y: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.y,
+    width: 50, // Approximate width
+    height: 50 // Approximate height
+  };
 
+  let bobby = {
+    x: this.bobbyPosition.x,
+    y: this.bobbyPosition.y,
+    width: 50,
+    height: 50
+  };
 
-  // Main game loop
-  //ameLoop() {
+  // Check if player touches Bobby
+  if (this.checkCollision(player, bobby)) {
+    if (!this.bobbyTagged) {
+      this.bobbyTagged = true;
+      this.playerTagged = false; // Player is not tagged initially
+      displayMessage("Referee: Bobby is tagged!");
+    } else if (!this.playerTagged) {
+      this.playerTagged = true;
+      this.bobbyTagged = false; // Bobby is no longer tagged
+      displayMessage("Referee: Player is tagged!");
+    }
+  }
+
+  // Update character colors based on tag state
+  this.objects.forEach(obj => {
+    if (obj.data.id === "Bobby") {
+      obj.data.color = this.bobbyTagged ? "red" : "default";
+    }
+    if (obj.data.id === "Randy") {
+      obj.data.color = this.playerTagged ? "red" : "default";
+    }
+  });
+
     this.updateBobbyPosition(); // Update Bobby's position every frame
 
     // Call gameLoop on the next frame
