@@ -1,7 +1,7 @@
 ---
 layout: base
 title: SP GAME
-permalink: /SPGame/S$P RPG
+permalink: /SPRPG
 ---
 
 <div id="gameContainer">
