@@ -20,7 +20,7 @@ class GameLevelGrass {
     const sprite_data_Randy = {
       id: 'Randy',
       greeting: "Hey there, Im Randy. Ready for some tag?",
-      src: sprite_data_Randy,
+      src: sprite_src_Randy,
       SCALE_FACTOR: RANDY_SCALE_FACTOR,
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
