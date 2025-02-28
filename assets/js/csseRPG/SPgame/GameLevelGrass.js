@@ -152,12 +152,6 @@ class GameLevelGrass {
       this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
       this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
       this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
-    } else if (this.bobbyPositiooon.x <= 0 || this.bobbyPosition.x >= canvasHeight) {
-      this.bobbyVelocity.y = -this.bobbyVelocity.y;
-      // Change direction randomly when hitting a wall
-      this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
-      this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
-      this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
     }
 
     // Update Bobby's position on screen
