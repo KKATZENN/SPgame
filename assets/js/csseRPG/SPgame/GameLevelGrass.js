@@ -82,7 +82,7 @@ class GameLevelGrass {
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
       INIT_POSITION: {x: 300, y: 100},
-      pixels: {height: 384, width: 512},
+      pixels: {height: 555, width: 555},
       orientation: {rows: 3, start: 0, columns: 4},
       hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
     };
@@ -98,7 +98,7 @@ class GameLevelGrass {
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
       INIT_POSITION: {x: 400, y: 250},
-      pixels: {height: 32, width: 32},
+      pixels: {height: 75, width: 75},
       orientation: {rows: 1, columns: 1},
       hitbox: {widthPercentage : 0.45, heightPercentage: 0.45}
     };
@@ -168,7 +168,8 @@ class GameLevelGrass {
   }
 
   updateCurrenttagger() {
-      let bobby = {
+      
+    let bobby = {
       x: this.bobbyPosition.x,
       y: this.bobbyPosition.y,
       width: 50,
