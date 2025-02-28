@@ -19,7 +19,7 @@ class GameLevelGrass {
     };
 
     //Data for Player
-    const sprite_src_Randy = path + "/assets/images/rpg/spritesheet.png";
+    const sprite_src_Randy = path + "/images/rpg/spritesheet.png";
     const RANDY_SCALE_FACTOR = 8; // Original value
     const sprite_data_Randy = {
       id: 'Randy',
@@ -133,7 +133,7 @@ class GameLevelGrass {
     this.bobbyPosition.y += this.bobbyVelocity.y;
     
     // Check for collisions with walls (bouncing logic)
-    const canvasWidth = 2076; // Updated canvas width (grass field)
+    const canvasWidth = 1038; // Updated canvas width (grass field)
     const canvasHeight = 1160; // Updated canvas height (grass field)
 
     // If Bobby hits the left or right wall, reverse x direction
