@@ -10,7 +10,7 @@ class GameLevelGrass {
     let height = GameEnv.innerHeight;
 
     // Use site.baseurl for image paths
-    const img_src_grass = path + "/assets/images/rpg/spritesheet (grass).png";
+    const img_src_grass = path + "/images/rpg/spritesheet (grass).png";
     const image_data_grass = {
       name: 'Grass',
       greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
@@ -40,7 +40,7 @@ class GameLevelGrass {
     };
 
     // Data for NPC (Bobby) playing against the player
-    const sprite_src_Bobby = path + "/assets/images/rpg/bobbynpc.png";
+    const sprite_src_Bobby = path + "images/rpg/bobbynpc.png";
     const BOBBY_SCALE_FACTOR = 6; // Original value
     const sprite_data_Bobby = {
       id: 'Bobby',
@@ -56,7 +56,7 @@ class GameLevelGrass {
     };
 
     //Data for the "Paul" helper NPC
-    const sprite_src_Paul = path + "/assets/images/rpg/paulnpc.png";
+    const sprite_src_Paul = path + "/images/rpg/paulnpc.png";
     const PAUL_SCALE_FACTOR = 6; // Original value
     const sprite_data_Paul = {
       id: 'Paul',
@@ -72,7 +72,7 @@ class GameLevelGrass {
     };
     
     //Data for the "Shayan" helper NPC
-    const sprite_src_Shayan = path + "/assets/images/rpg/shayannpc.png";
+    const sprite_src_Shayan = path + "/images/rpg/shayannpc.png";
     const SHAYAN_SCALE_FACTOR = 6; // Original value
     const sprite_data_Shayan = {
       id: 'Shayan',
@@ -88,7 +88,7 @@ class GameLevelGrass {
     };
 
     //Data for the "Referee" helper NPC
-    const sprite_src_referee = path + "/assets/images/rpg/referee.png";
+    const sprite_src_referee = path + "/images/rpg/referee.png";
     const REFEREE_SCALE_FACTOR = 6; // Original value
     const sprite_data_referee = {
       id: 'Referee',
