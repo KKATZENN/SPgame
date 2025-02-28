@@ -152,6 +152,12 @@ class GameLevelGrass {
       this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
       this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
       this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
+    } else if (this.bobbyPositiooon.x <= 0 || this.bobbyPosition.x >= canvasHeight) {
+      this.bobbyVelocity.y = -this.bobbyVelocity.y;
+      // Change direction randomly when hitting a wall
+      this.bobbyDirection = Math.random() * Math.PI * 2; // New random direction
+      this.bobbyVelocity.x = this.bobbySpeed * Math.cos(this.bobbyDirection); // Update x velocity based on new direction
+      this.bobbyVelocity.y = this.bobbySpeed * Math.sin(this.bobbyDirection); // Update y velocity based on new direction
     }
 
     // Update Bobby's position on screen
@@ -161,23 +167,19 @@ class GameLevelGrass {
     requestAnimationFrame(this.updateBobbyPosition);
   }
 
-  gameLoop() {
-    // Start Bobby's movement
-    this.updateBobbyPosition();
-
-    // Assume we have access to player position
-    let player = {
-      x: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.x,
-      y: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.y,
-      width: 50, // Approximate width
-      height: 50 // Approximate height
-    };
-
-    let bobby = {
+  updateCurrenttagger() {
+      let bobby = {
       x: this.bobbyPosition.x,
       y: this.bobbyPosition.y,
       width: 50,
       height: 50
+    };
+
+      let player = {
+        x: this.playerPosition.x,
+        y: this.playerPosition.y,
+        width: 50,
+        height: 50
     };
 
     // Check if player touches Bobby
@@ -202,6 +204,21 @@ class GameLevelGrass {
         obj.data.color = this.playerTagged ? "red" : "default";
       }
     });
+  }
+
+  gameLoop() {
+    // Start Bobby's movement
+    this.updateBobbyPosition();
+
+    // Assume we have access to player position
+    let player = {
+      x: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.x,
+      y: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.y,
+      width: 50, // Approximate width
+      height: 50 // Approximate height
+    };
+
+  
   }
 
   // Helper function to check collision between two objects
