@@ -1,5 +1,5 @@
-import GameEnv from "./GameEnv";
-import GameObject from "./GameObjects";
+import GameEnv from './GameEnv.js';
+import GameObject from './GameObjects.js';
 
 const SCALE_FACTOR = 10; // 1/nth of the height of the canvas
 const STEP_FACTOR = 100; // 1/nth, or N steps up and across the canvas
@@ -10,6 +10,12 @@ class Character extends GameObject {
 
     constructor(data = null) {
         super();
+        
+        // Ensure data is not null
+        if (!data) {
+            throw new Error('Data is required for Character');
+        }
+
         this.state = {
             ...this.state,
             animation: 'idle',
@@ -36,7 +42,7 @@ class Character extends GameObject {
         this.scale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
         
         // Check if sprite data is provided
-        if (data && data.src) {
+        if (data.src) {
             this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
             this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
             this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
@@ -45,14 +51,22 @@ class Character extends GameObject {
             // Load the sprite sheet
             this.spriteSheet = new Image();
             this.spriteSheet.src = data.src;
+            this.spriteSheet.onerror = () => {
+                console.error('Failed to load sprite sheet:', data.src);
+                this.spriteSheet = null;
+            };
 
             // Initialize animation properties
             this.frameIndex = 0; // index reference to current frame
             this.frameCounter = 0; // count each frame rate refresh
             this.direction = 'down'; // Initial direction
-            this.spriteData = data;
+            this.spriteData = {
+                ...data,
+                orientation: data.orientation || { rows: 1, columns: 1 },
+                pixels: data.pixels || { width: 32, height: 32 }
+            };
         } else {
-            throw new Error('Sprite data is required');
+            throw new Error('Sprite source (src) is required');
         }
 
         // Initialize the object's position and velocity
@@ -67,53 +81,108 @@ class Character extends GameObject {
     }
 
     draw() {
-        if (this.spriteSheet) {
-            // Sprite Sheet frame size: pixels = total pixels / total frames
-            const frameWidth = this.spriteData.pixels.width / this.spriteData.orientation.columns;
-            const frameHeight = this.spriteData.pixels.height / this.spriteData.orientation.rows;
+        if (!this.canvas || !this.ctx) return;
+
+        // Clear the canvas before drawing
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.spriteSheet && this.spriteSheet.complete && this.spriteSheet.naturalHeight !== 0) {
+            try {
+                // Get sprite orientation data with safe defaults
+                const orientation = this.spriteData?.orientation || { rows: 1, columns: 1 };
+                const pixels = this.spriteData?.pixels || { width: 32, height: 32 };
+                
+                // Calculate frame dimensions
+                const frameWidth = Math.floor(pixels.width / orientation.columns);
+                const frameHeight = Math.floor(pixels.height / orientation.rows);
     
-            // Sprite Sheet direction data source (e.g., front, left, right, back)
-            const directionData = this.spriteData[this.direction];
+                // For NPCs that don't have direction-specific sprite data
+                let frameX = 0;
+                let frameY = 0;
+
+                // Special handling for different characters
+                let actualFrameWidth = frameWidth;
+                let sourceFrameWidth = frameWidth;
+                let sourceFrameHeight = frameHeight;
+                if (this.canvas.id === "Bobby") {
+                    actualFrameWidth = Math.floor(frameWidth / 3);
+                    sourceFrameWidth = actualFrameWidth;
+                } else if (this.canvas.id === "Referee") {
+                    // For Referee, use the full sprite height and width
+                    sourceFrameWidth = pixels.width;
+                    sourceFrameHeight = pixels.height;
+                    actualFrameWidth = sourceFrameWidth;
+                    frameX = 0;  // Start from the beginning of the sprite sheet
+                    frameY = 0;  // No vertical offset
+                } else {
+                    // For all other characters, use standard frame width
+                    actualFrameWidth = frameWidth;
+                    sourceFrameWidth = frameWidth;
+                }
+
+                // If we have direction-specific data (for Player), use it
+                const directionData = this.spriteData?.[this.direction];
+                if (directionData && this.canvas.id !== "Referee") {  // Skip for Referee
+                    frameX = (directionData.start || 0) * frameWidth;
+                    frameY = (directionData.row || 0) * frameHeight;
+                } else if (this.canvas.id !== "Referee") {  // Skip for Referee
+                    // For NPCs, just use the frame index directly
+                    frameX = (this.frameIndex % orientation.columns) * frameWidth;
+                    frameY = Math.floor(this.frameIndex / orientation.columns) * frameHeight;
+                }
     
-            // Sprite Sheet x and y declarations to store coordinates of current frame
-            let frameX, frameY;
-            // Sprite Sheet x and y current frame: coordinate = (index) * (pixels)
-            frameX = (directionData.start + this.frameIndex) * frameWidth;
-            frameY = directionData.row * frameHeight;
+                // Set up the canvas dimensions to match the frame size
+                this.canvas.width = actualFrameWidth;
+                this.canvas.height = this.canvas.id === "Referee" ? sourceFrameHeight : frameHeight;
+
+                // Calculate display size maintaining aspect ratio
+                const scale = this.scale.height / this.scaleFactor;
+                const aspectRatio = actualFrameWidth / (this.canvas.id === "Referee" ? sourceFrameHeight : frameHeight);
+                const displayHeight = scale;
+                const displayWidth = scale * aspectRatio;
+
+                // Update the display size
+                this.canvas.style.width = `${displayWidth}px`;
+                this.canvas.style.height = `${displayHeight}px`;
+                this.canvas.style.position = 'absolute';
+                this.canvas.style.left = `${this.position.x}px`;
+                this.canvas.style.top = `${GameEnv.top + this.position.y}px`;
     
-            // Set up the canvas dimensions and styles
-            this.canvas.width = frameWidth;
-            this.canvas.height = frameHeight;
-            this.canvas.style.width = `${this.width}px`;
-            this.canvas.style.height = `${this.height}px`;
-            this.canvas.style.position = 'absolute';
-            this.canvas.style.left = `${this.position.x}px`;
-            this.canvas.style.top = `${GameEnv.top+this.position.y}px`;
+                // Draw the current frame of the sprite sheet
+                this.ctx.drawImage(
+                    this.spriteSheet,
+                    frameX, frameY, 
+                    this.canvas.id === "Referee" ? sourceFrameWidth : sourceFrameWidth,
+                    this.canvas.id === "Referee" ? sourceFrameHeight : frameHeight, // Source rectangle
+                    0, 0, 
+                    this.canvas.width, 
+                    this.canvas.height // Destination rectangle
+                );
     
-            // Clear the canvas before drawing
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-            // Draw the current frame of the sprite sheet
-            this.ctx.drawImage(
-                this.spriteSheet,
-                frameX, frameY, frameWidth, frameHeight, // Source rectangle
-                0, 0, this.canvas.width, this.canvas.height // Destination rectangle
-            );
-    
-            // Update the frame index for animation at a slower rate
-            this.frameCounter++;
-            if (this.frameCounter % this.animationRate === 0) {
-                this.frameIndex = (this.frameIndex + 1) % directionData.columns;
+                // Stop animation by removing frame updates
+                /*
+                this.frameCounter++;
+                if (this.frameCounter % this.animationRate === 0) {
+                    // For NPCs, cycle through all frames in the sprite sheet
+                    const totalFrames = orientation.rows * orientation.columns;
+                    this.frameIndex = (this.frameIndex + 1) % totalFrames;
+                }
+                */
+            } catch (error) {
+                console.error('Error drawing sprite:', error);
+                // Fall back to red rectangle on error
+                this.ctx.fillStyle = 'red';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             }
         } else {
-            // Draw default red square
+            // Draw default red square if sprite sheet isn't loaded
             this.ctx.fillStyle = 'red';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         }
     }
 
     update() {
-        // Update begins by drawing the object object
+        // Update begins by drawing the object
         this.draw();
 
         this.collisionChecks();

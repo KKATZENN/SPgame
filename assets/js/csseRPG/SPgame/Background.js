@@ -1,5 +1,5 @@
 import GameEnv from './GameEnv.js';
-import GameObject from './SPgame/GameObjects.js';
+import GameObject from './GameObjects.js';
 
 export class Background extends GameObject {
     constructor(data = null) {
@@ -7,6 +7,7 @@ export class Background extends GameObject {
         if (data.src) {
             this.image = new Image();
             this.image.src = data.src;
+            this.pixels = data.pixels; // Store the pixel dimensions
         } else {
             this.image = null;
         }
@@ -15,24 +16,20 @@ export class Background extends GameObject {
 
     draw() {
         const ctx = GameEnv.ctx;
-        const width = GameEnv.innerWidth;
-        const height = GameEnv.innerHeight;
 
         if (this.image) {
-            // Draw the background image scaled to the canvas size
-            ctx.drawImage(this.image, 0, 0, width, height);
+            // Draw the background at exact dimensions
+            ctx.drawImage(this.image, 0, 0, 2076, 1160);
         } else {
             // Fill the canvas with fillstyle color if no image is provided
             ctx.fillStyle = '#87CEEB';
-            ctx.fillRect(0, 0, width, height);
+            ctx.fillRect(0, 0, 2076, 1160);
         }
     }
-
 
     update() {
         this.draw();
     }
-
 
     resize() {
         this.draw();
@@ -44,7 +41,6 @@ export class Background extends GameObject {
             GameEnv.gameObjects.splice(index, 1);
         }
     }
-    
 }
 
 export default Background;

@@ -29,7 +29,7 @@ const INIT_POSITION = { x: 0, y: 0 };
  * @method handleKeyUp - Handles key up events to stop the player's velocity.
  */
 
-class PLayer extends GameObject{
+class Player extends GameObject {
     /**
      * @param {Object|null} data
      */
@@ -37,6 +37,12 @@ class PLayer extends GameObject{
         super(data);
         // Initialize the player's scale based on the game environment
         this.scale = { width: GameEnv.innerWidth, height: GameEnv.innerHeight };
+        
+        // Create canvas element
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = data?.id || "player";
+        this.ctx = this.canvas.getContext('2d');
+        document.getElementById("gameContainer").appendChild(this.canvas);
         
         // Check if sprite data is provided
         if (data && data.src) {
@@ -61,7 +67,7 @@ class PLayer extends GameObject{
             this.animationRate = ANIMATION_RATE;
             this.position = INIT_POSITION;
 
-            // No sprite sheet for defaultgit 
+            // No sprite sheet for default
             this.spriteSheet = null;
         }
 
@@ -75,4 +81,151 @@ class PLayer extends GameObject{
         this.bindEventListeners();
     }
 
+    bindEventListeners() {
+        document.addEventListener('keydown', this.handleKeyDown.bind(this));
+        document.addEventListener('keyup', this.handleKeyUp.bind(this));
+    }
+
+    handleKeyDown(event) {
+        // Get key mappings from sprite data or use defaults
+        const keyMap = this.spriteData?.keypress || {
+            up: 38,    // Up Arrow
+            down: 40,  // Down Arrow
+            left: 37,  // Left Arrow
+            right: 39  // Right Arrow
+        };
+
+        switch (event.keyCode) {
+            case keyMap.up:
+                this.velocity.y = -this.yStep;
+                this.direction = 'up';
+                break;
+            case keyMap.down:
+                this.velocity.y = this.yStep;
+                this.direction = 'down';
+                break;
+            case keyMap.left:
+                this.velocity.x = -this.xStep;
+                this.direction = 'left';
+                break;
+            case keyMap.right:
+                this.velocity.x = this.xStep;
+                this.direction = 'right';
+                break;
+        }
+    }
+
+    handleKeyUp(event) {
+        const keyMap = this.spriteData?.keypress || {
+            up: 38,
+            down: 40,
+            left: 37,
+            right: 39
+        };
+
+        switch (event.keyCode) {
+            case keyMap.up:
+            case keyMap.down:
+                this.velocity.y = 0;
+                break;
+            case keyMap.left:
+            case keyMap.right:
+                this.velocity.x = 0;
+                break;
+        }
+    }
+
+    draw() {
+        // Clear the canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.spriteSheet) {
+            // Get sprite orientation data
+            const orientation = this.spriteData?.orientation || { rows: 4, columns: 3 };
+            const spriteWidth = this.spriteData.pixels.width / orientation.columns;
+            const spriteHeight = this.spriteData.pixels.height / orientation.rows;
+
+            // Get current direction data
+            const directionData = this.spriteData[this.direction];
+            const row = directionData?.row || 0;
+
+            // Calculate the x position on the sprite sheet
+            // Cycle through frames based on frameIndex
+            const column = (directionData?.start || 0) + this.frameIndex;
+
+            // Draw the sprite
+            this.ctx.drawImage(
+                this.spriteSheet,
+                column * spriteWidth,
+                row * spriteHeight,
+                spriteWidth,
+                spriteHeight,
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+            );
+
+            // Update frame index for animation
+            this.frameCounter++;
+            if (this.frameCounter >= this.animationRate) {
+                this.frameCounter = 0;
+                this.frameIndex = (this.frameIndex + 1) % (directionData?.columns || 3);
+            }
+        } else {
+            // Draw a default red rectangle if no sprite sheet
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+    }
+
+    update() {
+        // Update position based on velocity
+        if (this.state.movement.up && this.velocity.y < 0 ||
+            this.state.movement.down && this.velocity.y > 0) {
+            this.position.y += this.velocity.y;
+        }
+        if (this.state.movement.left && this.velocity.x < 0 ||
+            this.state.movement.right && this.velocity.x > 0) {
+            this.position.x += this.velocity.x;
+        }
+
+        // Keep player within canvas bounds
+        this.position.x = Math.max(0, Math.min(this.position.x, GameEnv.innerWidth - this.width));
+        this.position.y = Math.max(0, Math.min(this.position.y, GameEnv.innerHeight - this.height));
+
+        // Update canvas position
+        this.canvas.style.left = `${this.position.x}px`;
+        this.canvas.style.top = `${this.position.y}px`;
+
+        // Check for collisions with other game objects
+        this.collisionChecks();
+
+        // Draw the updated player
+        this.draw();
+    }
+
+    resize() {
+        // Calculate size based on game environment
+        const height = Math.floor(GameEnv.innerHeight / this.scaleFactor);
+        const width = Math.floor(height * (this.spriteData?.pixels?.width || 1) / (this.spriteData?.pixels?.height || 1));
+        
+        // Set canvas size
+        this.canvas.width = width;
+        this.canvas.height = height;
+
+        // Set object position based on game environment
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = `${this.position.x}px`;
+        this.canvas.style.top = `${this.position.y}px`;
+
+        // Calculate movement step sizes
+        this.size = height;
+        this.width = width;
+        this.height = height;
+        this.xStep = Math.floor(GameEnv.innerWidth / this.stepFactor);
+        this.yStep = Math.floor(GameEnv.innerHeight / this.stepFactor);
+    }
 }
+
+export default Player;

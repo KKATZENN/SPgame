@@ -157,6 +157,45 @@ class GameObject {
                 }
             }
         }
+
+        // Add world boundary checks
+        if (this.canvas) {
+            const rect = this.canvas.getBoundingClientRect();
+            const container = document.getElementById('gameContainer');
+            const containerRect = container.getBoundingClientRect();
+
+            // Left boundary
+            if (rect.left <= containerRect.left) {
+                this.state.movement.left = false;
+                if (this.velocity && this.velocity.x < 0) {
+                    this.velocity.x = 0;
+                }
+            }
+
+            // Right boundary
+            if (rect.right >= containerRect.right) {
+                this.state.movement.right = false;
+                if (this.velocity && this.velocity.x > 0) {
+                    this.velocity.x = 0;
+                }
+            }
+
+            // Top boundary
+            if (rect.top <= containerRect.top) {
+                this.state.movement.up = false;
+                if (this.velocity && this.velocity.y < 0) {
+                    this.velocity.y = 0;
+                }
+            }
+
+            // Bottom boundary
+            if (rect.bottom >= containerRect.bottom) {
+                this.state.movement.down = false;
+                if (this.velocity && this.velocity.y > 0) {
+                    this.velocity.y = 0;
+                }
+            }
+        }
     }
 }
 

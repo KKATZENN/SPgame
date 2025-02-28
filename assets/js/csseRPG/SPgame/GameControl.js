@@ -2,6 +2,7 @@ import GameEnv from './GameEnv.js';
 import Background from './Background.js';
 import { getStats } from "./StatsManager.js";
 import Player from './Player.js';
+import GameLevelGrass from './GameLevelGrass.js';
 
 
 const createStatsUI = () => {
@@ -32,7 +33,7 @@ const GameControl = {
 
     start: function(path) {
         GameEnv.create();
-        this.levelClasses = [GameLevelDesert, GameLevelWater];
+        this.levelClasses = [GameLevelGrass];
         this.currentLevelIndex = 0;
         this.path = path;
         this.addExitKeyListener();
@@ -214,15 +215,14 @@ const GameControl = {
 
     // Initialize UI for game stats
     initStatsUI: function() {
+        // Remove existing stats container if it exists
+        const existingStats = document.getElementById('stats-container');
+        if (existingStats) {
+            existingStats.remove();
+        }
+
         const statsContainer = document.createElement('div');
         statsContainer.id = 'stats-container';
-        statsContainer.style.position = 'fixed';
-        statsContainer.style.top = '75px'; 
-        statsContainer.style.right = '10px';
-        statsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-        statsContainer.style.color = 'white';
-        statsContainer.style.padding = '10px';
-        statsContainer.style.borderRadius = '5px';
         statsContainer.innerHTML = `
             <div>Balance: <span id="balance">0</span></div>
             <div>Chat Score: <span id="chatScore">0</span></div>
