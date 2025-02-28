@@ -121,9 +121,6 @@ class GameLevelGrass {
     
     // Handle Bobby's movement and bouncing off walls
     this.updateBobbyPosition = this.updateBobbyPosition.bind(this);
-
-    // Call updateBobbyPosition every frame
-    this.gameLoop();
   }
 
   // Update Bobby's position and make him bounce off the walls
