@@ -15,11 +15,11 @@ class GameLevelGrass {
       name: 'Grass',
       greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
       src: img_src_grass,
-      pixels: { height: 1160, width: 2076 }
+      pixels: { height: 2320, width: 4152 }
     };
 
     //Data for Player
-    const sprite_src_Randy = path + "/assets/images/rpg/spritesheet.png";
+    const sprite_src_Randy = path + "/images/rpg/spritesheet.png";
     const RANDY_SCALE_FACTOR = 8; // Original value
     const sprite_data_Randy = {
       id: 'Randy',
