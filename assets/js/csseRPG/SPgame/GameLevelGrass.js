@@ -15,7 +15,7 @@ class GameLevelGrass {
       name: 'Grass',
       greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
       src: img_src_grass,
-      pixels: { height: this.innerHeight , width: this.innerWidth }
+      pixels: { height: GameEnv.innerHeight , width: GameEnv.innerWidth }
     };
 
     //Data for Player
