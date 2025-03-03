@@ -8,7 +8,7 @@ class NPC extends Character {
         // Initialize velocity for Bobby and Paul
         if (data.id === 'Bobby') {
             this.velocity = { x: 1, y: 1 }; // Bobby's movement speed
-        } else if (data.id === 'Paul') {
+        } else if (data.id === 'Randy') {
             this.velocity = { x: 0, y: 0 }; // Paul's initial velocity
             this.speed = 3; // Paul's movement speed
             // Add event listeners for WASD keys
@@ -21,7 +21,7 @@ class NPC extends Character {
     }
 
     handleKeyDown(event) {
-        if (this.spriteData.id !== 'Paul') return;
+        if (this.spriteData.id !== 'Randy') return;
         
         switch (event.key.toLowerCase()) {
             case 'w':
@@ -40,7 +40,7 @@ class NPC extends Character {
     }
 
     handleKeyUp(event) {
-        if (this.spriteData.id !== 'Paul') return;
+        if (this.spriteData.id !== 'Randy') return;
         
         switch (event.key.toLowerCase()) {
             case 'w':
@@ -62,7 +62,7 @@ class NPC extends Character {
         this.draw();
         if (this.spriteData.id === 'Bobby') {
             this.move();
-        } else if (this.spriteData.id === 'Paul') {
+        } else if (this.spriteData.id === 'Randy') {
             this.movePaul();
         }
     }
