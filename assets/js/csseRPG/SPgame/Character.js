@@ -33,9 +33,12 @@ class Character extends GameObject {
         this.ctx = this.canvas.getContext('2d');
         document.getElementById("gameContainer").appendChild(this.canvas);
 
+        // Set tagger state after canvas is created
+        this.state.isTagger = this.canvas.id === "player";
+
         // Set initial object properties 
-        this.x = 0;
-        this.y = 0;
+        this.x = data.INIT_POSITION?.x || 0;
+        this.y = data.INIT_POSITION?.y || 0;
         this.frame = 0;
         
         // Initialize the object's scale based on the game environment
@@ -46,7 +49,10 @@ class Character extends GameObject {
             this.scaleFactor = data.SCALE_FACTOR || SCALE_FACTOR;
             this.stepFactor = data.STEP_FACTOR || STEP_FACTOR;
             this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
-            this.position = data.INIT_POSITION || INIT_POSITION;
+            this.position = {
+                x: this.x,
+                y: this.y
+            };
     
             // Load the sprite sheet
             this.spriteSheet = new Image();
@@ -153,21 +159,26 @@ class Character extends GameObject {
                     this.spriteSheet,
                     frameX, frameY, 
                     this.canvas.id === "Referee" ? sourceFrameWidth : sourceFrameWidth,
-                    this.canvas.id === "Referee" ? sourceFrameHeight : frameHeight, // Source rectangle
+                    this.canvas.id === "Referee" ? sourceFrameHeight : frameHeight,
                     0, 0, 
                     this.canvas.width, 
-                    this.canvas.height // Destination rectangle
+                    this.canvas.height
                 );
-    
-                // Stop animation by removing frame updates
-                /*
-                this.frameCounter++;
-                if (this.frameCounter % this.animationRate === 0) {
-                    // For NPCs, cycle through all frames in the sprite sheet
-                    const totalFrames = orientation.rows * orientation.columns;
-                    this.frameIndex = (this.frameIndex + 1) % totalFrames;
+
+                // Add red border specifically for Paul
+                if (this.spriteData.id === 'Paul') {
+                    this.ctx.save();
+                    this.ctx.lineWidth = 20; // Much thicker border
+                    this.ctx.strokeStyle = 'rgba(0, 100, 0, 1)'; // Dark green color
+                    this.ctx.strokeRect(2, 2, this.canvas.width - 4, this.canvas.height - 4); // Inset slightly to ensure visibility
+                    
+                    // Add a second, outer stroke for extra visibility
+                    this.ctx.lineWidth = 4;
+                    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'; // Semi-transparent white
+                    this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+                    this.ctx.restore();
                 }
-                */
+    
             } catch (error) {
                 console.error('Error drawing sprite:', error);
                 // Fall back to red rectangle on error
@@ -179,6 +190,36 @@ class Character extends GameObject {
             this.ctx.fillStyle = 'red';
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         }
+    }
+
+    drawHitbox() {
+        // Only draw hitbox for player
+        if (this.canvas.id !== "player") return;
+
+        // Use same hitbox dimensions as collision detection
+        const myHitbox = {
+            x: 0,  // Local coordinates for drawing
+            y: 0,
+            width: this.canvas.width,
+            height: this.canvas.height
+        };
+
+        // Save current context state
+        this.ctx.save();
+
+        // Set line style for hitbox - make it very visible
+        this.ctx.lineWidth = 8;  // Thicker line
+        this.ctx.strokeStyle = '#FF0000';  // Bright red
+        this.ctx.setLineDash([5, 5]);  // Dashed line for visibility
+
+        // Draw hitbox rectangle
+        this.ctx.strokeRect(myHitbox.x, myHitbox.y, myHitbox.width, myHitbox.height);
+
+        // Restore context state
+        this.ctx.restore();
+
+        // Debug log
+        console.log('Drawing player hitbox:', myHitbox);
     }
 
     update() {
@@ -246,6 +287,79 @@ class Character extends GameObject {
         }
     }
     
+    collisionChecks() {
+        // Get all game objects
+        const gameObjects = GameEnv.gameObjects;
+
+        // Get current sprite's hitbox using canvas dimensions
+        const myHitbox = {
+            x: this.position.x,
+            y: this.position.y,
+            width: this.canvas.width,
+            height: this.canvas.height
+        };
+
+        // Check collision with each other sprite
+        for (const obj of gameObjects) {
+            // Skip if it's the same object or not a Character
+            if (obj === this || !(obj instanceof Character)) continue;
+
+            // Get other sprite's hitbox using canvas dimensions
+            const otherHitbox = {
+                x: obj.position.x,
+                y: obj.position.y,
+                width: obj.canvas.width,
+                height: obj.canvas.height
+            };
+
+            // Check for collision
+            if (this.isColliding(myHitbox, otherHitbox)) {
+                console.log(`Collision detected between ${this.canvas.id} and ${obj.canvas.id}`);
+                
+                // Handle tag game mechanics
+                if ((this.canvas.id === "player" || this.canvas.id === "Bobby") &&
+                    (obj.canvas.id === "player" || obj.canvas.id === "Bobby")) {
+                    
+                    // Switch tagger status if one is the tagger and the other isn't
+                    if (this.state.isTagger !== obj.state.isTagger) {
+                        console.log(`Switching tagger status: ${this.canvas.id} was ${this.state.isTagger}, ${obj.canvas.id} was ${obj.state.isTagger}`);
+                        this.state.isTagger = !this.state.isTagger;
+                        obj.state.isTagger = !obj.state.isTagger;
+                        console.log(`New tagger status: ${this.canvas.id} is ${this.state.isTagger}, ${obj.canvas.id} is ${obj.state.isTagger}`);
+                    }
+
+                    // Always prevent passing through by pushing back
+                    const overlapX = Math.min(
+                        myHitbox.x + myHitbox.width - otherHitbox.x,
+                        otherHitbox.x + otherHitbox.width - myHitbox.x
+                    );
+                    const overlapY = Math.min(
+                        myHitbox.y + myHitbox.height - otherHitbox.y,
+                        otherHitbox.y + otherHitbox.height - myHitbox.y
+                    );
+
+                    // Push back based on smaller overlap
+                    if (overlapX < overlapY) {
+                        // Push horizontally
+                        if (this.velocity.x > 0) {
+                            this.position.x = otherHitbox.x - myHitbox.width;
+                        } else {
+                            this.position.x = otherHitbox.x + otherHitbox.width;
+                        }
+                        this.velocity.x = 0;
+                    } else {
+                        // Push vertically
+                        if (this.velocity.y > 0) {
+                            this.position.y = otherHitbox.y - myHitbox.height;
+                        } else {
+                            this.position.y = otherHitbox.y + otherHitbox.height;
+                        }
+                        this.velocity.y = 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 export default Character;

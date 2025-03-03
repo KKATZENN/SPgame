@@ -159,42 +159,41 @@ class GameObject {
         }
 
         // Add world boundary checks
-        if (this.canvas) {
-            const rect = this.canvas.getBoundingClientRect();
-            const container = document.getElementById('gameContainer');
-            const containerRect = container.getBoundingClientRect();
+        if (this.canvas && typeof this.x === 'number' && typeof this.y === 'number') {
+            const padding = 50;
+            const spriteWidth = this.canvas.width / 2;  // Use half width for better boundary fit
+            const spriteHeight = this.canvas.height / 2;  // Use half height for better boundary fit
 
             // Left boundary
-            if (rect.left <= containerRect.left) {
+            if (this.x < padding) {
+                this.x = padding;
                 this.state.movement.left = false;
-                if (this.velocity && this.velocity.x < 0) {
-                    this.velocity.x = 0;
-                }
+                if (this.velocity) this.velocity.x = 0;
             }
 
             // Right boundary
-            if (rect.right >= containerRect.right) {
+            if (this.x > GameEnv.innerWidth - spriteWidth - padding) {
+                this.x = GameEnv.innerWidth - spriteWidth - padding;
                 this.state.movement.right = false;
-                if (this.velocity && this.velocity.x > 0) {
-                    this.velocity.x = 0;
-                }
+                if (this.velocity) this.velocity.x = 0;
             }
 
             // Top boundary
-            if (rect.top <= containerRect.top) {
+            if (this.y < padding) {
+                this.y = padding;
                 this.state.movement.up = false;
-                if (this.velocity && this.velocity.y < 0) {
-                    this.velocity.y = 0;
-                }
+                if (this.velocity) this.velocity.y = 0;
             }
 
             // Bottom boundary
-            if (rect.bottom >= containerRect.bottom) {
+            if (this.y > GameEnv.innerHeight - spriteHeight - padding) {
+                this.y = GameEnv.innerHeight - spriteHeight - padding;
                 this.state.movement.down = false;
-                if (this.velocity && this.velocity.y > 0) {
-                    this.velocity.y = 0;
-                }
+                if (this.velocity) this.velocity.y = 0;
             }
+
+            // Update position
+            this.canvas.style.transform = `translate(${this.x}px, ${this.y}px)`;
         }
     }
 }

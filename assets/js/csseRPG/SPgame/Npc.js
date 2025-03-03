@@ -72,11 +72,23 @@ class NPC extends Character {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
-        // Update velocity based on keys pressed
-        if (this.keys.w) this.velocity.y = -this.speed;
-        if (this.keys.s) this.velocity.y = this.speed;
-        if (this.keys.a) this.velocity.x = -this.speed;
-        if (this.keys.d) this.velocity.x = this.speed;
+        // Update velocity and direction based on keys pressed
+        if (this.keys.w) {
+            this.velocity.y = -this.speed;
+            this.direction = 'up';
+        }
+        if (this.keys.s) {
+            this.velocity.y = this.speed;
+            this.direction = 'down';
+        }
+        if (this.keys.a) {
+            this.velocity.x = -this.speed;
+            this.direction = 'left';
+        }
+        if (this.keys.d) {
+            this.velocity.x = this.speed;
+            this.direction = 'right';
+        }
 
         // Update position
         this.position.x += this.velocity.x;
@@ -87,6 +99,15 @@ class NPC extends Character {
         if (this.position.x + this.width > GameEnv.innerWidth) this.position.x = GameEnv.innerWidth - this.width;
         if (this.position.y < 0) this.position.y = 0;
         if (this.position.y + this.height > GameEnv.innerHeight) this.position.y = GameEnv.innerHeight - this.height;
+
+        // Update animation frame
+        if (this.velocity.x !== 0 || this.velocity.y !== 0) {
+            this.frameCounter++;
+            if (this.frameCounter >= this.animationRate) {
+                this.frameCounter = 0;
+                this.frameIndex = (this.frameIndex + 1) % 3; // 3 frames per direction
+            }
+        }
     }
 
     // Bobby moves around the screen by bouncing off walls

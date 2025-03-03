@@ -15,13 +15,13 @@ class GameLevelGrass {
       name: 'Grass',
       greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
       src: img_src_grass,
-      pixels: { height: 2320, width: 4152 }
+      pixels: { height: 1160, width: 4152 }
     };
 
     //Data for Player
     const sprite_src_Randy = path + "/images/rpg/spritesheet.png";
-    const RANDY_SCALE_FACTOR = 8; // Original value
-    const sprite_data_Randy = {
+    const RANDY_SCALE_FACTOR = 6; // Original value
+    this.sprite_data_Randy = {
       id: 'Randy',
       greeting: "Hey there, Im Randy. Ready for some tag?",
       src: sprite_src_Randy,
@@ -35,14 +35,14 @@ class GameLevelGrass {
       left: {row: 2, start: 0, columns: 3 },
       right: {row: 1, start: 0, columns: 3 },
       up: {row: 3, start: 0, columns: 3 },
-      hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
-      keypress: { up: 38, left: 37, down: 40, right: 39 }
+      hitbox: { widthPercentage: 1, heightPercentage: 1 },
+      keypress: { up: 87, left: 65, down: 83, right: 68 } // W=87, A=65, S=83, D=68
     };
 
     // Data for NPC (Bobby) playing against the player
     const sprite_src_Bobby = path + "images/rpg/bobbynpc.png";
     const BOBBY_SCALE_FACTOR = 6; // Original value
-    const sprite_data_Bobby = {
+    this.sprite_data_Bobby = {
       id: 'Bobby',
       greeting: "Whats up! I am bobby, lets play tag!",
       src: sprite_src_Bobby,
@@ -56,71 +56,55 @@ class GameLevelGrass {
     };
 
     //Data for the "Paul" helper NPC
-    const sprite_src_Paul = path + "/images/rpg/paulnpc.png";
+    const sprite_src_Paul = "/SPgame/images/rpg/sprite_sheetpaul.png";
     const PAUL_SCALE_FACTOR = 6; // Original value
-    const sprite_data_Paul = {
+    this.sprite_data_Paul = {
       id: 'Paul',
       greeting: "Hey, Im Paul, i'll increase your speed for you!",
       src: sprite_src_Paul,
       SCALE_FACTOR: PAUL_SCALE_FACTOR,
       STEP_FACTOR: 1000,
       ANIMATION_RATE: 50,
+      INIT_POSITION: {x: 1000, y: 300},
+      pixels: {height: 384, width: 512},
+      orientation: {rows: 4, columns: 3},
+      down: {row: 0, start: 0, columns: 3 },
+      left: {row: 2, start: 0, columns: 3 },
+      right: {row: 1, start: 0, columns: 3 },
+      up: {row: 3, start: 0, columns: 3 },
       INIT_POSITION: {x: 400, y: 100},
       pixels: {height: 300, width: 400},
       orientation: {rows: 3, start: 0, columns: 4},
       hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
     };
     
-    //Data for the "Shayan" helper NPC
-    const sprite_src_Shayan = path + "/images/rpg/shayannpc.png";
-    const SHAYAN_SCALE_FACTOR = 6; // Original value
-    const sprite_data_Shayan = {
-      id: 'Shayan',
-      greeting: "Hey, Im Shayan, here's a power boost!",
-      src: sprite_src_Shayan,
-      SCALE_FACTOR: SHAYAN_SCALE_FACTOR,
-      STEP_FACTOR: 1000,
-      ANIMATION_RATE: 50,
-      INIT_POSITION: {x: 300, y: 100},
-      pixels: {height: 555, width: 555},
-      orientation: {rows: 3, start: 0, columns: 4},
-      hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
-    };
-
-    //Data for the "Referee" helper NPC
-    const sprite_src_referee = path + "/images/rpg/referee.png";
-    const REFEREE_SCALE_FACTOR = 6; // Original value
-    const sprite_data_referee = {
-      id: 'Referee',
-      greeting: "I'm the referee! I'll keep track of who's tagged.",
-      src: sprite_src_referee,
-      SCALE_FACTOR: REFEREE_SCALE_FACTOR,
-      STEP_FACTOR: 1000,
-      ANIMATION_RATE: 50,
-      INIT_POSITION: {x: 400, y: 250},
-      pixels: {height: 75, width: 75},
-      orientation: {rows: 1, columns: 1},
-      hitbox: {widthPercentage : 0.45, heightPercentage: 0.45}
-    };
-
-    // List of objects for this level
-    this.objects = [
+    // Initialize game objects
+    const gameObjects = [
       { class: Background, data: image_data_grass },
-      { class: Player, data: sprite_data_Randy },
-      { class: Npc, data: sprite_data_Bobby },
-      { class: Npc, data: sprite_data_Paul },
-      { class: Npc, data: sprite_data_Shayan },
-      { class: Npc, data: sprite_data_referee }
+      { class: Player, data: this.sprite_data_Randy },
+      { class: Npc, data: this.sprite_data_Bobby },
+      { class: Npc, data: this.sprite_data_Paul }
     ];
 
+    // Assign gameObjects to this.objects
+    this.objects = gameObjects;
+
     // Bobby's position and movement properties
-    this.bobbyPosition = { x: sprite_data_Bobby.INIT_POSITION.x, y: sprite_data_Bobby.INIT_POSITION.y };
+    this.bobbyPosition = { x: this.sprite_data_Bobby.INIT_POSITION.x, y: this.sprite_data_Bobby.INIT_POSITION.y };
     this.bobbyVelocity = { x: 2, y: 2 }; // Speed at which Bobby moves in the x and y direction
     this.bobbyDirection = Math.random() * Math.PI * 2; // Random starting direction (angle)
     this.bobbySpeed = 2; // Bobby's movement speed
     
     // Handle Bobby's movement and bouncing off walls
     this.updateBobbyPosition = this.updateBobbyPosition.bind(this);
+    this.gameLoop = this.gameLoop.bind(this);
+
+    // Initialize tag states
+    this.bobbyTagged = false;
+    this.playerTagged = false;
+
+    // Start the game loop
+    requestAnimationFrame(this.gameLoop);
   }
 
   // Update Bobby's position and make him bounce off the walls
@@ -130,7 +114,7 @@ class GameLevelGrass {
     this.bobbyPosition.y += this.bobbyVelocity.y;
     
     // Check for collisions with walls (bouncing logic)
-    const canvasWidth = 1038; // Updated canvas width (grass field)
+    const canvasWidth = 4152; // Updated canvas width (grass field)
     const canvasHeight = 1160; // Updated canvas height (grass field)
 
     // If Bobby hits the left or right wall, reverse x direction
@@ -153,9 +137,6 @@ class GameLevelGrass {
 
     // Update Bobby's position on screen
     console.log("Bobby Position: ", this.bobbyPosition);
-
-    // Call gameLoop on the next frame
-    requestAnimationFrame(this.updateBobbyPosition);
   }
 
   updateCurrenttagger() {
@@ -196,19 +177,8 @@ class GameLevelGrass {
         obj.data.color = this.playerTagged ? "red" : "default";
       }
     });
-  }
 
-  gameLoop() {
-    // Start Bobby's movement
-    this.updateBobbyPosition();
-
-    // Assume we have access to player position
-    let player = {
-      x: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.x,
-      y: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.y,
-      width: 50, // Approximate width
-      height: 50 // Approximate height
-    };
+    
 
   
   }

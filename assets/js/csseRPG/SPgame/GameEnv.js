@@ -78,11 +78,11 @@ class GameEnv {
             return;
         }
 
-        // Set exact dimensions without scaling
-        this.canvas.width = 2076;
-        this.canvas.height = 1160;
+        // Set exact dimensions for the game area
         this.innerWidth = 2076;
         this.innerHeight = 1160;
+        this.canvas.width = this.innerWidth;
+        this.canvas.height = this.innerHeight;
         
         // Create a container div for the canvas if it doesn't exist
         let container = document.getElementById('gameContainer');
@@ -93,25 +93,63 @@ class GameEnv {
             container.appendChild(this.canvas);
         }
 
-        // Style the container to match exact background size
-        container.style.width = '2076px';
-        container.style.height = '1160px';
-        container.style.position = 'relative';
-        container.style.margin = '0 auto';
+        // Create border element if it doesn't exist
+        let border = document.getElementById('gameBorder');
+        if (!border) {
+            border = document.createElement('div');
+            border.id = 'gameBorder';
+            container.appendChild(border);
+        }
+
+        // Calculate scale to fit the game in the viewport
+        const scale = Math.min(
+            window.innerWidth / this.innerWidth,
+            window.innerHeight / this.innerHeight
+        );
+
+        // Style the container
+        container.style.width = this.innerWidth + 'px';
+        container.style.height = this.innerHeight + 'px';
+        container.style.position = 'fixed';
+        container.style.transform = `scale(${scale})`;
+        container.style.transformOrigin = 'center top';
+        container.style.left = '50%';
+        container.style.marginLeft = -(this.innerWidth / 2) + 'px';
+        container.style.top = '0';
+        container.style.overflow = 'hidden';
         
-        // Style the canvas to match exact size
-        this.canvas.style.width = '2076px';
-        this.canvas.style.height = '1160px';
+        // Style the border element
+        border.style.position = 'absolute';
+        border.style.top = '0';
+        border.style.left = '0';
+        border.style.width = '100%';
+        border.style.height = '100%';
+        border.style.borderWidth = '20px';
+        border.style.borderStyle = 'solid';
+        border.style.borderColor = '#FFFFFF';
+        border.style.pointerEvents = 'none';
+        border.style.zIndex = '9999';
+        border.style.boxSizing = 'border-box';
+        
+        // Style the canvas
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
         this.canvas.style.position = 'absolute';
         this.canvas.style.left = '0';
         this.canvas.style.top = '0';
 
-        // Enable scrolling on body if content overflows
-        document.body.style.overflow = 'auto';
+        // Disable scrolling
+        document.body.style.overflow = 'hidden';
         document.body.style.margin = '0';
         document.body.style.padding = '0';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#000';
         
-        console.log('Canvas sized:', { width: this.innerWidth, height: this.innerHeight }); // Debug log
+        console.log('Game dimensions:', {
+            width: this.innerWidth,
+            height: this.innerHeight,
+            scale: scale
+        });
     }
 
     /**

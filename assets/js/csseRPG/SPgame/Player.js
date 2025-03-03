@@ -51,23 +51,29 @@ class Player extends GameObject {
             this.animationRate = data.ANIMATION_RATE || ANIMATION_RATE;
             this.position = data.INIT_POSITION || INIT_POSITION;
     
-            // Load the sprite sheet
+            // Load the sprite sheet with error handling
             this.spriteSheet = new Image();
+            this.spriteSheet.onload = () => {
+                console.log('Sprite sheet loaded successfully:', data.src);
+            };
+            this.spriteSheet.onerror = (error) => {
+                console.error('Failed to load sprite sheet:', data.src, error);
+            };
             this.spriteSheet.src = data.src;
+            console.log('Attempting to load sprite sheet from:', data.src);
 
             // Initialize animation properties
-            this.frameIndex = 0; // index reference to current frame
-            this.frameCounter = 0; // count each frame rate refresh
-            this.direction = 'up'; // Initial direction
+            this.frameIndex = 0;
+            this.frameCounter = 0;
+            this.direction = 'up';
             this.spriteData = data;
+            console.log('Sprite data:', this.spriteData);
         } else {
-            // Default to red square
+            console.warn('No sprite data provided, falling back to default red square');
             this.scaleFactor = SCALE_FACTOR;
             this.stepFactor = STEP_FACTOR;
             this.animationRate = ANIMATION_RATE;
             this.position = INIT_POSITION;
-
-            // No sprite sheet for default
             this.spriteSheet = null;
         }
 
@@ -139,6 +145,7 @@ class Player extends GameObject {
         // Clear the canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Draw the sprite FIRST
         if (this.spriteSheet) {
             // Get sprite orientation data
             const orientation = this.spriteData?.orientation || { rows: 4, columns: 3 };
@@ -172,6 +179,21 @@ class Player extends GameObject {
                 this.frameCounter = 0;
                 this.frameIndex = (this.frameIndex + 1) % (directionData?.columns || 3);
             }
+
+            // Draw hitbox AFTER sprite (only if sprite loaded successfully)
+            // Save context state
+            this.ctx.save();
+            
+            // Set line style for hitbox - just the outline
+            this.ctx.lineWidth = 4;  // Thinner line
+            this.ctx.strokeStyle = 'rgba(255, 0, 0, 0.8)';  // Semi-transparent red
+            this.ctx.setLineDash([5, 5]);  // Dashed line for better visibility
+            
+            // Draw just the outline
+            this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+            
+            // Restore context state
+            this.ctx.restore();
         } else {
             // Draw a default red rectangle if no sprite sheet
             this.ctx.fillStyle = 'red';
