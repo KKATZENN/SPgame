@@ -178,7 +178,21 @@ class GameLevelGrass {
       }
     });
 
-    
+    // Continue the game loop
+    requestAnimationFrame(this.gameLoop);
+  }
+
+  gameLoop() {
+    // Start Bobby's movement
+    this.updateBobbyPosition();
+
+    // Assume we have access to player position
+    let player = {
+      x: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.x,
+      y: this.objects.find(obj => obj.data.id === "Randy").data.INIT_POSITION.y,
+      width: 50, // Approximate width
+      height: 50 // Approximate height
+    };
 
   
   }
