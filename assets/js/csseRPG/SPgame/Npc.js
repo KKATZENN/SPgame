@@ -63,11 +63,11 @@ class NPC extends Character {
         if (this.spriteData.id === 'Bobby') {
             this.move();
         } else if (this.spriteData.id === 'Randy') {
-            this.movePaul();
+            this.movePlayer();
         }
     }
 
-    movePaul() {
+    movePlayer() {
         // Reset velocity
         this.velocity.x = 0;
         this.velocity.y = 0;
@@ -94,7 +94,7 @@ class NPC extends Character {
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
-        // Keep Paul within bounds
+        // Keep Player within bounds
         if (this.position.x < 0) this.position.x = 0;
         if (this.position.x + this.width > GameEnv.innerWidth) this.position.x = GameEnv.innerWidth - this.width;
         if (this.position.y < 0) this.position.y = 0;
