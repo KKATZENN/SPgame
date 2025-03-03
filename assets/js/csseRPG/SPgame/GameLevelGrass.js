@@ -40,7 +40,7 @@ class GameLevelGrass {
     };
 
     // Data for NPC (Bobby) playing against the player
-    const sprite_src_Bobby = path + "images/rpg/bobbynpc.png";
+    const sprite_src_Bobby = path + "/images/rpg/bobbynpc.png";
     const BOBBY_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Bobby = {
       id: 'Bobby',
@@ -56,7 +56,7 @@ class GameLevelGrass {
     };
 
     //Data for the "Paul" helper NPC
-    const sprite_src_Paul = "/SPgame/images/rpg/paulnpc.png";
+    const sprite_src_Paul = "/images/rpg/paulnpc.png";
     const PAUL_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Paul = {
       id: 'Paul',
