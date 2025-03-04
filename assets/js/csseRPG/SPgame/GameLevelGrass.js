@@ -15,11 +15,11 @@ class GameLevelGrass {
       name: 'Grass',
       greeting: "Welcome to the grass field! The grass is smooth, the stakes are high, and it's time for some intense tag play ",
       src: img_src_grass,
-      pixels: { height: GameEnv.innerHeight , width: GameEnv.innerWidth }
+      pixels: { height: height , width: width }
     };
 
     //Data for Player
-    const sprite_src_Randy = path + "/images/rpg/player_spritesheet.png";
+    const sprite_src_Randy = path + "/SPgame/images/rpg/player_spritesheet.png";
     const RANDY_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Randy = {
       id: 'Randy',
@@ -40,7 +40,7 @@ class GameLevelGrass {
     };
 
     // Data for NPC (Bobby) playing against the player
-    const sprite_src_Bobby = path + "/images/rpg/bobbynpc.png";
+    const sprite_src_Bobby = path + "/SPgame/images/rpg/bobbynpc.png";
     const BOBBY_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Bobby = {
       id: 'Bobby',
@@ -56,7 +56,7 @@ class GameLevelGrass {
     };
 
     //Data for the "Paul" helper NPC
-    const sprite_src_Paul = "/images/rpg/paulnpc.png";
+    const sprite_src_Paul = "/SPgame/images/rpg/paulnpc.png";
     const PAUL_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Paul = {
       id: 'Paul',
