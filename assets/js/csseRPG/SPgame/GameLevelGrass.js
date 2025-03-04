@@ -154,21 +154,33 @@ class GameLevelGrass {
       if (!this.bobbyTagged) {
         this.bobbyTagged = true;
         this.playerTagged = false; // Player is not tagged initially
-        displayMessage("Referee: Bobby is tagged!");
+        alert("Referee: Bobby is tagged!");
       } else if (!this.playerTagged) {
         this.playerTagged = true;
         this.bobbyTagged = false; // Bobby is no longer tagged
-        displayMessage("Referee: Player is tagged!");
+        alert("Referee: Player is tagged!");
       }
     }
 
     // Update character colors based on tag state
     this.objects.forEach(obj => {
       if (obj.data.id === "Bobby") {
-        obj.data.color = this.bobbyTagged ? "red" : "default";
+        this.ctx.save();
+        this.ctx.lineWidth = 10; // Much thicker border
+        this.ctx.strokeStyle = 'rgba(0, 100, 0, 1)'; // Dark green color
+        this.ctx.strokeRect(2, 2, this.canvas.width - 4, this.canvas.height - 4); // Inset slightly to ensure visibility
+      } else {
+        this.ctx.save();
+        this.ctx.lineWidth = 0; // Remove green outline if Bobby isn't tagged
       }
       if (obj.data.id === "Randy") {
-        obj.data.color = this.playerTagged ? "red" : "default";
+        this.ctx.save();
+        this.ctx.lineWidth = 10; // Much thicker border
+        this.ctx.strokeStyle = 'rgba(0, 100, 0, 1)'; // Dark green color
+        this.ctx.strokeRect(2, 2, this.canvas.width - 4, this.canvas.height - 4); // Inset slightly to ensure visibility
+      }else {
+        this.ctx.save();
+        this.ctx.lineWidth = 0; // Remove green outline if Randy isn't tagged
       }
     });
 
