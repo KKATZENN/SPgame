@@ -72,6 +72,13 @@ class GameEnv {
      * @static
      */
     static size() {
+        this.canvas.width = this.innerWidth;
+        this.canvas.height = this.innerHeight;
+        this.canvas.style.width = `${this.innerWidth}px`;
+        this.canvas.style.height = `${this.innerHeight}px`;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = '0px';
+        this.canvas.style.top = `${this.top}px`;
         console.log('GameEnv.size() called'); // Debug log
         if (!this.canvas) {
             console.error('Cannot size: canvas is null'); // Debug log
