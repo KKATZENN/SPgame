@@ -19,7 +19,7 @@ class GameLevelGrass {
     };
 
     //Data for Player
-    const sprite_src_Randy = path + "/SPgame/images/rpg/player_spritesheet.png";
+    const sprite_src_Randy = path + "{{site.baseurl}}/images/rpg/player_spritesheet.png";
     const RANDY_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Randy = {
       id: 'Randy',
@@ -40,7 +40,7 @@ class GameLevelGrass {
     };
 
     // Data for NPC (Bobby) playing against the player
-    const sprite_src_Bobby = path + "/SPgame/images/rpg/bobbynpc.png";
+    const sprite_src_Bobby = path + "{{site.baseurl}}/images/rpg/bobbynpc.png";
     const BOBBY_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Bobby = {
       id: 'Bobby',
@@ -56,7 +56,7 @@ class GameLevelGrass {
     };
 
     //Data for the "Paul" helper NPC
-    const sprite_src_Paul = "/SPgame/images/rpg/paulnpc.png";
+    const sprite_src_Paul = "{{site.baseurl}}/images/rpg/paulnpc.png";
     const PAUL_SCALE_FACTOR = 6; // Original value
     this.sprite_data_Paul = {
       id: 'Paul',
