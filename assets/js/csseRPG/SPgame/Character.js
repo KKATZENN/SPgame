@@ -165,10 +165,10 @@ class Character extends GameObject {
                     this.canvas.height
                 );
 
-                // Add red border specifically for Paul
-                if (this.spriteData.id === 'Paul') {
+                // Add dark green border specifically for Randy
+                if (this.spriteData.id === 'Randy') {
                     this.ctx.save();
-                    this.ctx.lineWidth = 20; // Much thicker border
+                    this.ctx.lineWidth = 10; // Much thicker border
                     this.ctx.strokeStyle = 'rgba(0, 100, 0, 1)'; // Dark green color
                     this.ctx.strokeRect(2, 2, this.canvas.width - 4, this.canvas.height - 4); // Inset slightly to ensure visibility
                     
