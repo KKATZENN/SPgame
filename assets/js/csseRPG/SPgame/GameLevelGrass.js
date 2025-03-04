@@ -108,8 +108,8 @@ class GameLevelGrass {
     this.bobbyPosition.y += this.bobbyVelocity.y;
     
     // Check for collisions with walls (bouncing logic)
-    const canvasWidth = 4152; // Updated canvas width (grass field)
-    const canvasHeight = 1160; // Updated canvas height (grass field)
+    const canvasWidth = GameEnv.innerWidth; // Updated canvas width (grass field)
+    const canvasHeight = GameEnv.innerHeight; // Updated canvas height (grass field)
 
     // If Bobby hits the left or right wall, reverse x direction
     if (this.bobbyPosition.x <= 0 || this.bobbyPosition.x >= canvasWidth) {
