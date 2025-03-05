@@ -86,8 +86,8 @@ class GameEnv {
         }
 
         // Set exact dimensions for the game area
-        this.innerWidth = 4152;
-        this.innerHeight = 2320;
+        this.innerWidth = 2076;
+        this.innerHeight = 1160;
         this.canvas.width = this.innerWidth;
         this.canvas.height = this.innerHeight;
         

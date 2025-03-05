@@ -69,9 +69,15 @@ class GameLevelGrass {
       pixels: {height: 384, width: 512},
       orientation: {rows: 4, columns: 3},
       orientation: {rows: 3, start: 0, columns: 4},
-      hitbox: {widthPercentage : 0.25, heightPercentage: 0.25}
+      hitbox: {widthPercentage : 0.25, heightPercentage: 0.25},
+      
+      interact: function() {
+        alert(this.greeting);
+      }
     };
     
+
+
     // Initialize game objects
     const gameObjects = [
       { class: Background, data: image_data_grass },
