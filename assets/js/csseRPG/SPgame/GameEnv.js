@@ -131,7 +131,7 @@ class GameEnv {
         border.style.left = '0';
         border.style.width = '100%';
         border.style.height = '100%';
-        border.style.borderWidth = '20px';
+        border.style.borderWidth = '8px';
         border.style.borderStyle = 'solid';
         border.style.borderColor = '#FFFFFF';
         border.style.pointerEvents = 'none';
