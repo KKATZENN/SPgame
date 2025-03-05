@@ -1,4 +1,5 @@
 import GameEnv from './GameEnv.js';
+import GameControl from './GameControl.js';
 import Background from './Background.js';
 import Player from './Player.js';
 import Npc from './Npc.js';
@@ -73,10 +74,10 @@ class GameLevelGrass {
       
       interact: function() {
         alert(this.greeting);
+        this.sprite_data_Randy.STEP_FACTOR *= 1.5;
+        alert("Your speed has been increased!");
       }
     };
-    
-
 
     // Initialize game objects
     const gameObjects = [
