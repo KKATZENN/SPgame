@@ -85,7 +85,7 @@ class GameLevelGrass {
 
     // Bobby's position and movement properties
     this.bobbyPosition = { x: this.sprite_data_Bobby.INIT_POSITION.x, y: this.sprite_data_Bobby.INIT_POSITION.y };
-    this.bobbyVelocity = { x: 2, y: 2 }; // Speed at which Bobby moves in the x and y direction
+    this.bobbyVelocity = { x: 5, y: 5 }; // Speed at which Bobby moves in the x and y direction
     this.bobbyDirection = Math.random() * Math.PI * 2; // Random starting direction (angle)
     this.bobbySpeed = 2; // Bobby's movement speed
     
