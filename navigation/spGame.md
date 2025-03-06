@@ -32,7 +32,7 @@ canvas {
 }
 
 #errorMessage {
-    color: red;
+    color: blue;
     padding: 20px;
     font-family: monospace;
     white-space: pre-wrap;
