@@ -75,6 +75,7 @@ class GameLevelGrass {
       interact: function() {
         alert(this.greeting);
         this.sprite_data_Randy.STEP_FACTOR *= 1.5;
+        this.sprite_data_Randy.ANIMATION_RATE *= 1.5;
         alert("Your speed has been increased!");
       }
     };
