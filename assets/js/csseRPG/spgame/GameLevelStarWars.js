@@ -60,6 +60,7 @@ class GameLevelStarWars {
       orientation: {rows: 1, columns: 3 },
       down: {row: 0, start: 0, columns: 3 },  // This is the stationary npc, down is default 
       hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+      keypress: { up: 38, down: 40, space:32 }, // Arrow keys
     };
 
     // Laser data, temporary sprite for testing
@@ -101,6 +102,25 @@ class GameLevelStarWars {
         down: {row: 0, start: 0, columns: 1, spin: 4},  // down is default
      };
 
+          // Laser data, temporary sprite for testing
+    const sprite_data_laser3 = {
+      id: 'AT-AT-Laser-3',
+      greeting: "Attack the snowspeeder!",
+      // define image/sprite data
+      src: sprite_src_laser,
+      pixels: {height: 500, width: 500}, // height and width of the image
+      orientation: {rows: 1, columns: 1 }, // normalized rows and columns in the sprite
+      // define size, position, adjustments for hitbox
+      SCALE_FACTOR: 60,  // Start small 
+      INIT_POSITION: { x: width - (height/TURRET_SCALE_FACTOR), y: height - .82*(height/TURRET_SCALE_FACTOR) }, // Ratios for initial position
+      hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+      // define animation properties
+      TRANSLATE_SCALE_FACTOR: 20, // Grow to this size at end translation
+      TRANSLATE_POSITION_RATIO: { x: 1 / 20, y: 1 / 1.9 }, // Ratios for translate position
+      TRANSLATE_SIMULATION: {miliseconds: 500 }, // 1 second
+      down: {row: 0, start: 0, columns: 1, spin: 4},  // down is default
+   };
+
     // List of objects definitions for this level
     this.classes = [
       { class: Background, data: image__data_atat },
@@ -108,6 +128,7 @@ class GameLevelStarWars {
       { class: Npc, data: sprite_data_turret },
       { class: Projectile, data: sprite_data_laser1 },
       { class: Projectile, data: sprite_data_laser2 },
+      { class: Projectile, data: sprite_data_laser3 },
     ];
   }
 }
